@@ -426,8 +426,8 @@ class Material extends CI_Controller{
                 p.date,
                 concat('Production Expense- ', p.note) as description,
                 pd.purchase_rate as rate,
-                pd.quantity as in_quantity,
-                0 as out_quantity    
+                0.00 as in_quantity,
+                pd.quantity as out_quantity    
             from tbl_production_details pd
             join tbl_productions p on p.production_id = pd.production_id
             where p.status = 'a'
