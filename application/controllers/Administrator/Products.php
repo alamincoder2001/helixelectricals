@@ -301,7 +301,7 @@ class Products extends CI_Controller {
                 
                 (select ifnull(sum(pp.quantity), 0)
                     from tbl_production_products pp
-                    join tbl_productions pro on pro.production_id = pp.production_id
+                    left join tbl_productions pro on pro.production_id = pp.production_id
                     where pp.product_id = p.Product_SlNo
                     and pp.branch_id = '$branchId'
                     and pp.status = 'a'

@@ -64,12 +64,12 @@ class Production extends CI_Controller{
             foreach($data->materials as $material){
                 $material = array(
                     'production_id' => $productionId,
-                    'material_id' => $material->material_id,
-                    'quantity' => $material->quantity,
+                    'material_id'   => $material->material_id,
+                    'quantity'      => $material->quantity,
                     'purchase_rate' => $material->purchase_rate,
-                    'total' => $material->total,
-                    'status' => 'a',
-                    'branch_id' => $this->sbrunch
+                    'total'         => $material->total,
+                    'status'        => 'a',
+                    'branch_id'     => $this->session->userdata('BRANCHid')
                 );
                 $this->db->insert('tbl_production_details', $material);
             }
@@ -77,12 +77,12 @@ class Production extends CI_Controller{
             foreach($data->products as $product){
                 $productionProduct = array(
                     'production_id' => $productionId,
-                    'product_id' => $product->product_id,
-                    'quantity' => $product->quantity,
-                    'price' => $product->price,
-                    'total' => $product->total,
-                    'status' => 'a',
-                    'branch_id' => $this->sbrunch
+                    'product_id'    => $product->product_id,
+                    'quantity'      => $product->quantity,
+                    'price'         => $product->price,
+                    'total'         => $product->total,
+                    'status'        => 'a',
+                    'branch_id'     => $this->session->userdata('BRANCHid')
                 );
 
                 $this->db->insert('tbl_production_products', $productionProduct);
