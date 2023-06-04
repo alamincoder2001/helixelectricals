@@ -53,7 +53,7 @@ class Production extends CI_Controller{
                 'other_cost' => $data->production->other_cost,
                 'total_cost' => $data->production->total_cost,
                 'status' => 'a',
-                'branch_id' => $this->sbrunch
+                'branch_id' => $this->session->userdata('BRANCHid')
             );
     
             $this->db->insert('tbl_productions', $production);
@@ -270,7 +270,7 @@ class Production extends CI_Controller{
             pr.*,
             e.Employee_Name as incharge_name
             from tbl_productions pr
-            join tbl_employee e on e.Employee_SlNo = pr.incharge_id
+            left join tbl_employee e on e.Employee_SlNo = pr.incharge_id
             where pr.status = 'a'
             and pr.branch_id = '$this->sbrunch'
             $dateClause
