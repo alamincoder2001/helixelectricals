@@ -44,16 +44,16 @@ class Production extends CI_Controller{
             }
             $production = array(
                 'production_sl' => $data->production->production_sl,
-                'date' => $data->production->date,
-                'incharge_id' => $data->production->incharge_id,
-                'shift' => $data->production->shift,
-                'note' => $data->production->note,
-                'labour_cost' => $data->production->labour_cost,
+                'date'          => $data->production->date,
+                'incharge_id'   => $data->production->incharge_id,
+                'shift'         => $data->production->shift,
+                'note'          => $data->production->note,
+                'labour_cost'   => $data->production->labour_cost,
                 'material_cost' => $data->production->material_cost,
-                'other_cost' => $data->production->other_cost,
-                'total_cost' => $data->production->total_cost,
-                'status' => 'a',
-                'branch_id' => $this->session->userdata('BRANCHid')
+                'other_cost'    => $data->production->other_cost,
+                'total_cost'    => $data->production->total_cost,
+                'status'        => 'a',
+                'branch_id'     => $this->sbrunch
             );
     
             $this->db->insert('tbl_productions', $production);
@@ -69,7 +69,7 @@ class Production extends CI_Controller{
                     'purchase_rate' => $material->purchase_rate,
                     'total'         => $material->total,
                     'status'        => 'a',
-                    'branch_id'     => $this->session->userdata('BRANCHid')
+                    'branch_id'     => $this->sbrunch
                 );
                 $this->db->insert('tbl_production_details', $material);
             }
@@ -82,23 +82,23 @@ class Production extends CI_Controller{
                     'price'         => $product->price,
                     'total'         => $product->total,
                     'status'        => 'a',
-                    'branch_id'     => $this->session->userdata('BRANCHid')
+                    'branch_id'     => $this->sbrunch
                 );
 
                 $this->db->insert('tbl_production_products', $productionProduct);
                 $previousStock = $this->mt->productStock($product->product_id);
 
-                $productInventoryCount = $this->db->query("select * from tbl_currentinventory ci where ci.product_id = ? and ci.branch_id = ?", [$product->product_id, $this->session->userdata('BRANCHid')])->num_rows();
+                $productInventoryCount = $this->db->query("select * from tbl_currentinventory ci where ci.product_id = ? and ci.branch_id = ?", [$product->product_id, $this->sbrunch])->num_rows();
                 if($productInventoryCount == 0){
                     $inventory = array(
                         'product_id' => $product->product_id,
                         'production_quantity' => $product->quantity,
-                        'branch_id' => $this->session->userdata('BRANCHid')
+                        'branch_id' => $this->sbrunch
                     );
 
                     $this->db->insert('tbl_currentinventory', $inventory);
                 } else {
-                    $this->db->query("update tbl_currentinventory set production_quantity = production_quantity + ? where product_id = ? and branch_id = ?", [$product->quantity, $product->product_id, $this->session->userdata('BRANCHid')]);
+                    $this->db->query("update tbl_currentinventory set production_quantity = production_quantity + ? where product_id = ? and branch_id = ?", [$product->quantity, $product->product_id, $this->sbrunch]);
                 }
 
                 $this->db->query("
@@ -159,7 +159,7 @@ class Production extends CI_Controller{
             foreach($oldProducts as $oldProduct){
                 $previousStock = $this->mt->productStock($oldProduct->product_id);
 
-                $this->db->query("update tbl_currentinventory set production_quantity = production_quantity - ? where product_id = ? and branch_id = ?", [$oldProduct->quantity, $oldProduct->product_id, $this->session->userdata('BRANCHid')]);
+                $this->db->query("update tbl_currentinventory set production_quantity = production_quantity - ? where product_id = ? and branch_id = ?", [$oldProduct->quantity, $oldProduct->product_id, $this->sbrunch]);
 
                 $this->db->query("
                     update tbl_product set 
@@ -187,17 +187,17 @@ class Production extends CI_Controller{
                 $this->db->insert('tbl_production_products', $productionProduct);
                 $previousStock = $this->mt->productStock($product->product_id);
 
-                $productInventoryCount = $this->db->query("select * from tbl_currentinventory ci where ci.product_id = ? and ci.branch_id = ?", [$product->product_id, $this->session->userdata('BRANCHid')])->num_rows();
+                $productInventoryCount = $this->db->query("select * from tbl_currentinventory ci where ci.product_id = ? and ci.branch_id = ?", [$product->product_id, $this->sbrunch])->num_rows();
                 if($productInventoryCount == 0){
                     $inventory = array(
                         'product_id' => $product->product_id,
                         'production_quantity' => $product->quantity,
-                        'branch_id' => $this->session->userdata('BRANCHid')
+                        'branch_id' => $this->sbrunch
                     );
 
                     $this->db->insert('tbl_currentinventory', $inventory);
                 } else {
-                    $this->db->query("update tbl_currentinventory set production_quantity = production_quantity + ? where product_id = ? and branch_id = ?", [$product->quantity, $product->product_id, $this->session->userdata('BRANCHid')]);
+                    $this->db->query("update tbl_currentinventory set production_quantity = production_quantity + ? where product_id = ? and branch_id = ?", [$product->quantity, $product->product_id, $this->sbrunch]);
                 }
 
                 $this->db->query("
@@ -357,7 +357,7 @@ class Production extends CI_Controller{
             foreach($oldProducts as $oldProduct){
                 $previousStock = $this->mt->productStock($oldProduct->product_id);
 
-                $this->db->query("update tbl_currentinventory set production_quantity = production_quantity - ? where product_id = ? and branch_id = ?", [$oldProduct->quantity, $oldProduct->product_id, $this->session->userdata('BRANCHid')]);
+                $this->db->query("update tbl_currentinventory set production_quantity = production_quantity - ? where product_id = ? and branch_id = ?", [$oldProduct->quantity, $oldProduct->product_id, $this->sbrunch]);
 
                 $this->db->query("
                     update tbl_product set 
