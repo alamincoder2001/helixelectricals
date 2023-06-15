@@ -251,7 +251,7 @@ class Production extends CI_Controller{
             from tbl_productions pr
             join tbl_employee e on e.Employee_SlNo = pr.incharge_id
             where pr.status = 'a'
-            and pr.branch_id = '$this->sbrunch'
+            and pr.branch_id = $this->sbrunch
             $idClause $dateClause
         ")->result();
         echo json_encode($productions);
@@ -272,7 +272,7 @@ class Production extends CI_Controller{
             from tbl_productions pr
             left join tbl_employee e on e.Employee_SlNo = pr.incharge_id
             where pr.status = 'a'
-            and pr.branch_id = '$this->sbrunch'
+            and pr.branch_id = $this->sbrunch
             $dateClause
         ")->result();
 
@@ -311,7 +311,7 @@ class Production extends CI_Controller{
             join tbl_unit u on u.Unit_SlNo = m.unit_id
             where pd.status = 'a' 
             and pd.production_id = '$options->production_id'
-            and pd.branch_id = '$this->sbrunch'
+            and pd.branch_id = $this->sbrunch
         ")->result();
 
         echo json_encode($productionDetails);
