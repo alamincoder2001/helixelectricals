@@ -181,7 +181,7 @@ class Production extends CI_Controller{
                     'price' => $product->price,
                     'total' => $product->total,
                     'status' => 'a',
-                    'branch_id' => '$this->sbrunch'
+                    'branch_id' => $this->sbrunch
                 );
 
                 $this->db->insert('tbl_production_products', $productionProduct);
